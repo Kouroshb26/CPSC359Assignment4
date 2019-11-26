@@ -203,83 +203,20 @@ void drawSquare(int rowStart, int columnStart, int squareSize, unsigned int colo
 }
 
 
-
-////////////////////////////////////////////////////////////////////////////////
-//
-//  Function:       drawCheckerboard
-//
-//  Arguments:      numberOfRows:        Number of checker board rows
-//                  numberOfColumns:     Number of checker board columns
-//                  squareSize:          Size of the square in pixels per side
-//                  color1:              Color of the first square
-//                  color2:              The alternating square color
-//
-//  Returns:        vois
-//
-//  Description:    This function draws a checkerboard pattern on the display
-//                  with the prescribed numbers of rows and columns and the
-//                  specified square size. The pattern alternates between the
-//                  two specified colors.
-//
-////////////////////////////////////////////////////////////////////////////////
-
-void drawCheckerboard(int numberOfRows, int numberOfColumns, int squareSize,
-		       unsigned int color1, unsigned int color2)
-{
-    int i, j;
-
-    // Draw the rows from the top down
-    for (i = 0; i < numberOfRows; i++) {
-	// Draw the squares for the evenly numbered rows
-	if ((i % 2) == 0) {
-	    // Draw alternating squares starting with the first color
-	    for (j = 0; j < numberOfColumns; j += 2) {
-		drawSquare(i * squareSize, j * squareSize, squareSize, color1);
-		drawSquare(i * squareSize, (j + 1) * squareSize, squareSize, color2);
-	    }
-	}
-	// Draw the squares for the oddly numbered rows
-	else {
-	    // Draw alternating squares starting with the second color
-	    for (j = 0; j < numberOfColumns; j += 2) {
-		drawSquare(i * squareSize, j * squareSize, squareSize, color2);
-		drawSquare(i * squareSize, (j + 1) * squareSize, squareSize, color1);
-	    }
-	}
-    }	    
+void drawPoint(int row, int column){
+    pixel[(row * frameBufferWidth) + column] = BLACK;
 }
 
 
-
-////////////////////////////////////////////////////////////////////////////////
-//
-//  Function:       displayFrameBuffer
-//
-//  Arguments:      none
-//
-//  Returns:        void
-//
-//  Description:    This function displays a checker board pattern, where each
-//                  square is 64 x 64 pixels in size. Since the screen
-//                  resolution is set to 1024 x 768, the board has 18 x 12
-//                  squares in total.
-//
-////////////////////////////////////////////////////////////////////////////////
-
-void displayFrameBuffer()
-{
-    int squareSize, numberOfRows, numberOfColumns;
-
-
-    // Set the size of a checker board square in terms of pixels per side. It
-    // should be a number that is a power of 2, so that it can fit cleanly into
-    // a 1024 x 768 frame buffer.
-    squareSize = 64;
-
-    // Calculate the number of rows and columns
-    numberOfRows = frameBufferHeight / squareSize;
-    numberOfColumns = frameBufferWidth / squareSize;
- 
-    // Draw a checker board pattern on the screen
-    drawCheckerboard(numberOfRows, numberOfColumns, squareSize, MAROON, GRAY);
+void clearScreen(){
+    int row,column;
+    // Draw the square row by row, from the top down
+    for (row = 0; row < frameBufferHeight; row++) {
+        // Draw each pixel in the row from left to right
+         for (column = 0; column < frameBufferWidth; column++) {
+            // Draw the individual pixel by setting its
+            // RGB value in the frame buffer
+             pixel[(row * frameBufferWidth) + column] = WHITE;
+         }
+    }
 }
