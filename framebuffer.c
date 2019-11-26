@@ -204,12 +204,14 @@ void drawSquare(int rowStart, int columnStart, int squareSize, unsigned int colo
 
 
 void drawPoint(int row, int column){
+    unsigned int *pixel = frameBuffer;
     pixel[(row * frameBufferWidth) + column] = BLACK;
 }
 
 
 void clearScreen(){
     int row,column;
+    unsigned int *pixel = frameBuffer;
     // Draw the square row by row, from the top down
     for (row = 0; row < frameBufferHeight; row++) {
         // Draw each pixel in the row from left to right
