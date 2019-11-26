@@ -1,0 +1,2 @@
+void initFrameBuffer();
+void displayFrameBuffer();
