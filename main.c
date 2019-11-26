@@ -145,7 +145,7 @@ void main()
             character.x = character.x - (character.x % 1023);
             character.y = character.y - (character.y % 767);
 
-            printPoint(character);
+            printPoint(&character);
     	    drawPoint(character.x,character.y);
         }
 
