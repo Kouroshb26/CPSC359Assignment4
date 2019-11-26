@@ -62,22 +62,23 @@ struct Point createPoint(int x, int y){
 ////////////////////////////////////////////////////////////////////////////////
 void main()
 {
-    unsigned short data, currentState = 0xFFFF;
+    unsigned short data = 0xFFFF;
 
     // Set up the UART serial port
     uart_init();
 
     // Initialize the frame buffer
     initFrameBuffer();
+    clearScreen();
 
     // Set up GPIO pin #9 for output (LATCH output)
     init_GPIO(9,false);
 
     // Set up GPIO pin #11 for output (CLOCK output)
-    init_GPIO(9,false);
+    init_GPIO(11,false);
 
     // Set up GPIO pin #10 for input (DATA input)
-    init_GPIO(9,true);
+    init_GPIO(10,true);
 
     // Clear the LATCH line (GPIO 9) to low
     clear_GPIO(9);
@@ -93,7 +94,8 @@ void main()
     buttons[4] = createButton("Right",7);
     buttons[5] = createButton("X",8);
 
-    struct Point character = createPoint(1024/2,768/2);
+    struct Point character = createPoint(512,384);
+    printPoint(&character);
 
 
     // Print out a message to the console
@@ -104,61 +106,62 @@ void main()
     	// Read data from the SNES controller
     	data = get_SNES();
 
-        // Write out data if the state of the controller has changed
-        if (data != currentState) {
-            // Write the data out to the console in hexadecimal
-            uart_puts("0x");
-            uart_puthex(data);
-            uart_puts("\n");
+        for(int i = 0; i < 6; i++){
+            if((0x1 << buttons[i].shiftValue) & data){
+                printPoint(&character);
 
-            for(int i = 0; i < sizeof(buttons); i++){
-                if((0x1 << buttons[i].shiftValue) & data){
-
-                    switch(buttons[i].shiftValue){
-                        case 3://Start
-                            character.x = 0;
-                            character.y = 0;
-                            break;
-                        case 4://UP
-                            character.y += 1;
-                            break;
-                        case 5://Down
+                switch(buttons[i].shiftValue){
+                    case 3://Start
+                        uart_puts("Start\n");
+                        clearScreen();
+                        break;
+                    case 4://UP
+                        uart_puts("UP\n");
+                        if(character.y > 0){
                             character.y -= 1;
-                            break;
-                        case 6://Left
+                        }
+                        break;
+                    case 5://Down
+                        uart_puts("Down\n");
+                        if(character.y<767){
+                            character.y += 1;
+                        }
+                        break;
+                    case 6://Left
+                        uart_puts("Left\n");
+                        if(character.x > 0){
                             character.x -= 1;
-                            break;
-                        case 7://Right
+                        }
+                        break;
+                    case 7://Right
+                        uart_puts("Right\n");
+                        if(character.x < 1023){
                             character.x += 1;
-                            break;
-                        case 8://X  FILL
-                            clearScreen();
-                            break;
-                        default:
-                            break;
-                    }
+                        }
+                        break;
+                    case 8://X  FILL
+                        uart_puts("X\n");
+                        break;
+                    default:
+                        break;
                 }
             }
-            currentState = data;
-
-            //Adjust character point when it goes off the screen
-            character.x = character.x - (character.x % 1023);
-            character.y = character.y - (character.y % 767);
-
-            printPoint(&character);
-    	    drawPoint(character.x,character.y);
         }
 
+        printPoint(&character);
+        drawPoint(character.x,character.y);
+
+
     	// Delay 1/30th of a second
-    	microsecond_delay(33333);
+    	microsecond_delay(10000);
     }
 }
 
 void printPoint(struct Point *p){
     uart_puts("x = ");
-    uart_puts(p->x);
+    uart_puthex(p->x);
     uart_puts(" y = ");
-    uart_puts(p->y);
+    uart_puthex(p->y);
     uart_puts("\n");
 }
 
@@ -196,7 +199,6 @@ unsigned short get_SNES()
     int i;
     unsigned short data = 0;
     unsigned int value;
-
 
     // Set LATCH to high for 12 microseconds. This causes the controller to
     // latch the values of button presses into its internal register. The

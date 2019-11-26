@@ -159,9 +159,9 @@ void initFrameBuffer()
     }
 }
 
-void drawPoint(int row, int column){
+void drawPoint(int x, int y){
     unsigned int *pixel = frameBuffer;
-    pixel[(row * frameBufferWidth) + column] = BLACK;
+    pixel[(y * frameBufferWidth) + x] = BLACK;
 }
 
 
