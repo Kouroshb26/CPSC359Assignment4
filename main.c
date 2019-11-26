@@ -108,8 +108,6 @@ void main()
 
         for(int i = 0; i < 6; i++){
             if((0x1 << buttons[i].shiftValue) & data){
-                printPoint(&character);
-
                 switch(buttons[i].shiftValue){
                     case 3://Start
                         uart_puts("Start\n");
@@ -141,6 +139,8 @@ void main()
                         break;
                     case 8://X  FILL
                         uart_puts("X\n");
+                        clearPoint(character.x,character.y);
+                        floodFill(character.x,character.y);
                         break;
                     default:
                         break;
@@ -158,7 +158,7 @@ void main()
 }
 
 void printPoint(struct Point *p){
-    uart_puts("x = ");
+    uart_puts("Position: x = ");
     uart_puthex(p->x);
     uart_puts(" y = ");
     uart_puthex(p->y);

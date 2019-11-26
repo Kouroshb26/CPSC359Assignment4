@@ -164,17 +164,47 @@ void drawPoint(int x, int y){
     pixel[(y * frameBufferWidth) + x] = BLACK;
 }
 
+void clearPoint(int x, int y){
+    unsigned int *pixel = frameBuffer;
+    pixel[(y * frameBufferWidth) + x] = WHITE;
+
+}
+
 
 void clearScreen(){
     int row,column;
-    unsigned int *pixel = frameBuffer;
     // Draw the square row by row, from the top down
     for (row = 0; row < frameBufferHeight; row++) {
         // Draw each pixel in the row from left to right
          for (column = 0; column < frameBufferWidth; column++) {
             // Draw the individual pixel by setting its
             // RGB value in the frame buffer
-             pixel[(row * frameBufferWidth) + column] = WHITE;
+             clearPoint(row,column);
          }
     }
+}
+
+
+void floodFill(int x, int y){ //From https://guide.freecodecamp.org/algorithms/flood-fill/
+    unsigned int *pixel = frameBuffer;
+    if( pixel[(y * frameBufferWidth) + x] == BLACK){ //If it has been filled we don't do anything we already
+          return;
+    }
+
+    drawPoint(x,y);
+
+    if(x > 0){
+        floodFill(x-1, y);
+    }
+    if(x + 1 < frameBufferWidth){
+        floodFill(x+1,y);
+    }
+    if(y > 0){
+        floodFill(x, y-1);
+    }
+    if(y + 1 < frameBufferHeight){
+        floodFill(x, y+1);
+    }
+
+    return;
 }
