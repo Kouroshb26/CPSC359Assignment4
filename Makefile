@@ -24,8 +24,8 @@
 #  installed on the host machine. If the toolchain was installed
 #  at another location in the file hierarchy, then this line will
 #  have to be changed.
-#INSTALL_DIRECTORY = /usr/local/linaro/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-elf/bin/
-INSTALL_DIRECTORY = /home/boyd/bin/cross-compiler/bin/
+INSTALL_DIRECTORY = /usr/local/linaro/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-elf/bin/
+#INSTALL_DIRECTORY = /home/boyd/bin/cross-compiler/bin/
 
 #  The following are the complete paths to the gcc compiler,
 #  the as assembler, the ld linker, and the objcopy and objdump
