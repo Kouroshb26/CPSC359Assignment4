@@ -112,7 +112,7 @@ void main()
             uart_puts("\n");
 
             for(int i = 0; i< sizeof(buttons); i++){
-                if(((1 < buttons[i].shiftValue) & data)){
+                if(((0x1 << buttons[i].shiftValue) & data)){
 
                     switch(buttons[i].shiftValue){
                         case 3://Start
