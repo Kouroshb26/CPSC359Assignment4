@@ -159,50 +159,6 @@ void initFrameBuffer()
     }
 }
 
-
-
-////////////////////////////////////////////////////////////////////////////////
-//
-//  Function:       drawSquare
-//
-//  Arguments:      rowStart:        Top left pixel y coordinate
-//                  columnStart:     Top left pixel x coordinate
-//                  squareSize:      Square size in pixels per side
-//                  color:           RGB color code
-//
-//  Returns:        void
-//
-//  Description:    This function function draws a single square into the
-//                  frame buffer. The top left pixel of the square is given,
-//                  and it is drawn downwards and to the right on the display.
-//                  The size of the square is given in terms of pixels per side,
-//                  and the pixels in the square are given the same specified
-//                  color.
-//
-////////////////////////////////////////////////////////////////////////////////
-
-void drawSquare(int rowStart, int columnStart, int squareSize, unsigned int color)
-{
-    int row, column, rowEnd, columnEnd;
-    unsigned int *pixel = frameBuffer;
-
-
-    // Calculate where the row and columns end
-    rowEnd = rowStart + squareSize;
-    columnEnd = columnStart + squareSize;
-
-    // Draw the square row by row, from the top down
-    for (row = rowStart; row < rowEnd; row++) {
-	// Draw each pixel in the row from left to right
-        for (column = columnStart; column < columnEnd; column++) {
-	    // Draw the individual pixel by setting its
-	    // RGB value in the frame buffer
-            pixel[(row * frameBufferWidth) + column] = color;
-        }
-    }
-}
-
-
 void drawPoint(int row, int column){
     unsigned int *pixel = frameBuffer;
     pixel[(row * frameBufferWidth) + column] = BLACK;

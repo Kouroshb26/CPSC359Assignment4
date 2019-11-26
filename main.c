@@ -28,6 +28,7 @@ struct Point{
 };
 struct Button createButton(char* name, int shiftValue);
 struct Point createPoint(int x, int y);
+void printPoint(struct Point *p);
 
 struct Button createButton(char* name, int shiftValue){
     struct Button b;
@@ -92,7 +93,7 @@ void main()
     buttons[4] = createButton("Right",7);
     buttons[5] = createButton("X",8);
 
-    Point character = createPoint(1024/2,768/2);
+    struct Point character = createPoint(1024/2,768/2);
 
 
     // Print out a message to the console
@@ -110,10 +111,10 @@ void main()
             uart_puthex(data);
             uart_puts("\n");
 
-            for(int i = 0; i< buttons.length; i++){
-                if(((1 < buttons[i].number) & data)){
+            for(int i = 0; i< sizeof(buttons); i++){
+                if(((1 < buttons[i].shiftValue) & data)){
 
-                    switch(buttons[i].number){
+                    switch(buttons[i].shiftValue){
                         case 3://Start
                             character.x = 0;
                             character.y = 0;
@@ -141,8 +142,8 @@ void main()
             currentState = data;
 
             //Adjust character point when it goes off the screen
-            character.x = character.x - (character.x mod 1023);
-            character.y = character.y - (character.y mod 767);
+            character.x = character.x - (character.x % 1023);
+            character.y = character.y - (character.y % 767);
 
             printPoint(character);
     	    drawPoint(character.x,character.y);
@@ -319,18 +320,6 @@ void init_GPIO(int pinNumber,_Bool isInput){ //Source: 03_GPIO_PushButton exampl
     // in order to remove the clock
     *GPPUDCLK0 = 0;
 
-    if(isInput == true){
-        // Set pin 17 to so that it generates an interrupt on a rising edge.
-        // We do so by setting bit 17 in the GPIO Rising Edge Detect Enable
-        // Register 0 to a 1 value (p. 97 in the Broadcom manual).
-
-        *GPREN0 = *GPREN0 | (0x1 << pinNumber); //Need to or it so we don't reset what has been done
-
-        // Enable the GPIO IRQS for ALL the GPIO pins by setting IRQ 52
-        // GPIO_int[3] in the Interrupt Enable Register 2 to a 1 value.
-        // See p. 117 in the Broadcom Peripherals Manual.
-        *IRQ_ENABLE_IRQS_2 = (0x1 << 20);
-    }
     return;
 }
 
