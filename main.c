@@ -92,7 +92,7 @@ void main()
     buttons[2] = createButton("Down",5);
     buttons[3] = createButton("Left",6);
     buttons[4] = createButton("Right",7);
-    buttons[5] = createButton("X",8);
+    buttons[5] = createButton("X",9);
 
     struct Point character = createPoint(512,384);
     printPoint(&character);
@@ -137,7 +137,7 @@ void main()
                             character.x += 1;
                         }
                         break;
-                    case 8://X  FILL
+                    case 9://X  FILL
                         uart_puts("X\n");
                         clearPoint(character.x,character.y);
                         floodFill(character.x,character.y);

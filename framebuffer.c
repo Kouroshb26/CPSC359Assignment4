@@ -172,14 +172,14 @@ void clearPoint(int x, int y){
 
 
 void clearScreen(){
-    int row,column;
+    int x,y;
     // Draw the square row by row, from the top down
-    for (row = 0; row < frameBufferHeight; row++) {
+    for (x = 0; x < frameBufferWidth; x++) {
         // Draw each pixel in the row from left to right
-         for (column = 0; column < frameBufferWidth; column++) {
+         for (y = 0; y < frameBufferHeight; y++) {
             // Draw the individual pixel by setting its
             // RGB value in the frame buffer
-             clearPoint(row,column);
+             clearPoint(x,y);
          }
     }
 }
