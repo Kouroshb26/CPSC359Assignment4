@@ -111,8 +111,8 @@ void main()
             uart_puthex(data);
             uart_puts("\n");
 
-            for(int i = 0; i< sizeof(buttons); i++){
-                if(((0x1 << buttons[i].shiftValue) & data)){
+            for(int i = 0; i < sizeof(buttons); i++){
+                if((0x1 << buttons[i].shiftValue) & data){
 
                     switch(buttons[i].shiftValue){
                         case 3://Start
