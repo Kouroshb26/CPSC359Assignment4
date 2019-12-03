@@ -1,3 +1,4 @@
+//Source: Manzara's examples
 // The functions in this file implement a basic communications system
 // which allows communication between a host and the Raspberry Pi using a UART
 // serial connection. Once uart_init() has been called, the Pi can transmit

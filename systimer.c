@@ -1,3 +1,4 @@
+//Source: Manzara's examples
 // The addresses of the BCM System Timer registers.
 //
 // These are defined on page 172 of the Broadcom BCM2837 ARM Peripherals

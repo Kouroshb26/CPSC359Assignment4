@@ -374,7 +374,7 @@ void clear_GPIO(int pinNumber){ //Source: 03_GPIO_PushButton example
 //                  to a 0 (low) level.
 //
 ////////////////////////////////////////////////////////////////////////////////
-unsigned get_GPIO(int pinNumber){
+unsigned get_GPIO(int pinNumber){ //Source: 03_GPIO_PushButton example
      // Isolate pin 10, and return its value (a 0 if low, or a 1 if high)
      return (( *GPLEV0 >> pinNumber) & 0x1);
 }
